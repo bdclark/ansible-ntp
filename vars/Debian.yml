@@ -1,0 +1,5 @@
+---
+ntp_packages:
+  - ntp
+  - ntpdate
+ntp_daemon: ntp

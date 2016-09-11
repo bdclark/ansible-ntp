@@ -1,0 +1,4 @@
+---
+ntp_packages:
+  - ntp
+ntp_daemon: ntpd

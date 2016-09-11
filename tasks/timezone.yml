@@ -1,0 +1,63 @@
+---
+- name: check timezone file exists
+  stat:
+    path: /usr/share/zoneinfo/{{ ntp_timezone }}
+  register: _zoneinfo
+
+- name: fail if invalid timezone
+  fail:
+    msg: "{{ ntp_timezone}} does not seem to be a valid timezone"
+  when: not _zoneinfo.stat.exists
+
+- name: install tzdata package (debian)
+  package:
+    name: tzdata
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: set /etc/timezone (debian)
+  copy:
+    content: "{{ ntp_timezone}}\n"
+    dest: /etc/timezone
+    owner: root
+    group: root
+    mode: 0644
+  register: _etc_timezone
+  when: ansible_os_family == 'Debian'
+
+- name: reconfigure tzdata (debian)
+  command: dpkg-reconfigure -f noninteractive tzdata
+  when: _etc_timezone | changed
+
+- name: check /etc/sysconfig/clock exists
+  stat:
+    path: /etc/sysconfig/clock
+  register: _sysconfig_clock
+
+- name: set /etc/sysconfig/clock
+  template:
+    src: clock.j2
+    dest: /etc/sysconfig/clock
+    owner: root
+    group: root
+    mode: 0644
+  when: _sysconfig_clock.stat.exists
+
+- name: get timedatectl timezone status
+  shell: timedatectl status | grep -E '^\s*Time\s?zone:'
+  ignore_errors: yes
+  always_run: yes
+  changed_when: no
+  register: _timedatectl
+
+- name: set timezone via timedatectl
+  command: timedatectl set-timezone {{ ntp_timezone }}
+  when: _timedatectl | succeeded and ntp_timezone not in _timedatectl.stdout
+
+- name: set /etc/localtime
+  file:
+    src: /usr/share/zoneinfo/{{ ntp_timezone }}
+    dest: /etc/localtime
+    state: link
+    force: yes
+  when: _timedatectl | failed

@@ -1,0 +1,8 @@
+---
+- hosts: test-kitchen
+  remote_user: root
+  vars:
+    ntp_timezone: America/Indiana/Indianapolis
+    ntp_manage_config: yes
+  roles:
+    - role: ntp

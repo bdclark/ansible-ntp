@@ -1,0 +1,24 @@
+---
+- include_vars: "{{ ansible_os_family }}.yml"
+
+- include: timezone.yml
+
+- name: install ntp
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ ntp_packages }}"
+
+- name: write config file
+  template:
+    src: "{{ ntp_config_template }}"
+    dest: /etc/ntp.conf
+  when: ntp_manage_config
+  notify: restart ntp
+
+- name: manage ntp service
+  service:
+    name: "{{ ntp_daemon }}"
+    state: "{{ ntp_enabled | ternary('started', 'stopped') }}"
+    enabled: "{{ ntp_enabled }}"
+  when: ntp_enabled

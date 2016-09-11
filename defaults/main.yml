@@ -1,0 +1,24 @@
+---
+# timezone
+ntp_timezone: Etc/UTC
+# whether to start/enable or stop/disable ntp service
+ntp_enabled: true
+# whether to manage configuration of /etc/ntp.conf
+ntp_manage_config: false
+# template to use for ntp.conf
+ntp_config_template: ntp.conf.j2
+
+
+# default restriction options
+ntp_restrict_default: kod notrap nomodify nopeer noquery
+# path to driftfile
+ntp_driftfile: /var/lib/ntp/ntp.drift
+
+# Set to true if using ntp < 4.2.8 or any unpatched ntp version to mitigate CVE-2014-9293 / CVE-2014-9294 / CVE-2014-9295
+ntp_localhost_noquery: false
+# ntp server list and their settings
+ntp_servers:
+ - 0.pool.ntp.org iburst
+ - 1.pool.ntp.org iburst
+ - 2.pool.ntp.org iburst
+ - 3.pool.ntp.org iburst

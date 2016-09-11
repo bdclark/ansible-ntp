@@ -1,0 +1,16 @@
+
+driftfile {{ ntp_driftfile }}
+
+statistics loopstats peerstats clockstats
+filegen loopstats file loopstats type day enable
+filegen peerstats file peerstats type day enable
+filegen clockstats file clockstats type day enable
+
+{% for item in ntp_servers %}
+server {{ item }}
+{% endfor %}
+
+restrict -4 default {{ ntp_restrict_default }}
+restrict -6 default {{ ntp_restrict_default }}
+restrict 127.0.0.1{{ ' noquery' if ntp_localhost_noquery else '' }}
+restrict -6 ::1{{ ' noquery' if ntp_localhost_noquery else '' }}
