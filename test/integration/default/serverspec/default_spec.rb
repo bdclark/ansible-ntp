@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-describe command('date +%Z') do
-  its(:stdout) { should match 'EDT' }
-end
-
 case os[:family]
 when 'redhat', 'centos'
   describe service('ntpd') do
