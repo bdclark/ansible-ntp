@@ -46,7 +46,7 @@
 - name: get timedatectl timezone status
   shell: timedatectl status | grep -E '^\s*Time\s?zone:'
   ignore_errors: yes
-  always_run: yes
+  check_mode: no
   changed_when: no
   register: _timedatectl
 
