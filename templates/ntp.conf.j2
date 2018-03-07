@@ -9,6 +9,9 @@ filegen clockstats file clockstats type day enable
 {% for item in ntp_servers %}
 server {{ item }}
 {% endfor %}
+{% for item in ntp_pool %}
+pool {{ item }}
+{% endfor %}
 
 restrict -4 default {{ ntp_restrict_default }}
 restrict -6 default {{ ntp_restrict_default }}
