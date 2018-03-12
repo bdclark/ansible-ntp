@@ -1,4 +1,10 @@
 ---
+- name: install tzdata package (debian)
+  package:
+    name: tzdata
+    state: present
+  when: ansible_os_family == 'Debian'
+
 - name: check timezone file exists
   stat:
     path: /usr/share/zoneinfo/{{ ntp_timezone }}
@@ -8,12 +14,6 @@
   fail:
     msg: "{{ ntp_timezone}} does not seem to be a valid timezone"
   when: not _zoneinfo.stat.exists
-
-- name: install tzdata package (debian)
-  package:
-    name: tzdata
-    state: present
-  when: ansible_os_family == 'Debian'
 
 - name: set /etc/timezone (debian)
   copy:
