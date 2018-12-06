@@ -4,7 +4,7 @@ Install and configure NTP and timezone.
 
 Requirements
 ------------
-Ansible 2.2+
+Ansible 2.5+
 
 Role Variables
 --------------

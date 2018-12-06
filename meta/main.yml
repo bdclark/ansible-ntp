@@ -3,7 +3,7 @@ galaxy_info:
   description: Install and configure NTP and timezone
 
   license: MIT
-  min_ansible_version: 1.8
+  min_ansible_version: 2.5
 
   platforms:
     - name: Ubuntu

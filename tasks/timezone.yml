@@ -27,7 +27,7 @@
 
 - name: reconfigure tzdata (debian)
   command: dpkg-reconfigure -f noninteractive tzdata
-  when: _etc_timezone | changed
+  when: _etc_timezone is changed
 
 - name: check /etc/sysconfig/clock exists
   stat:
@@ -52,7 +52,7 @@
 
 - name: set timezone via timedatectl
   command: timedatectl set-timezone {{ ntp_timezone }}
-  when: _timedatectl | succeeded and ntp_timezone not in _timedatectl.stdout
+  when: _timedatectl is succeeded and ntp_timezone not in _timedatectl.stdout
 
 - name: set /etc/localtime
   file:
@@ -60,4 +60,4 @@
     dest: /etc/localtime
     state: link
     force: yes
-  when: _timedatectl | failed
+  when: _timedatectl is failed
