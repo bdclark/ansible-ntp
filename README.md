@@ -1,10 +1,16 @@
-# ntp
+# NTP Ansible Role
+
+[![Build Status](https://travis-ci.org/bdclark/ansible-ntp.svg?branch=master)](https://travis-ci.org/bdclark/ansible-ntp)
 
 Install and configure NTP and timezone.
 
 Requirements
 ------------
-Ansible 2.5+
+This role is tested with the following Ansible versions and operating systems:
+
+- Ansible 2.5, 2.7
+- Ubuntu 16.04, 18.04
+- Centos 7.x
 
 Role Variables
 --------------
