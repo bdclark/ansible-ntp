@@ -1,8 +1,8 @@
 ---
 - hosts: all
-  become: yes
+  become: true
   vars:
     ntp_timezone: America/Indiana/Indianapolis
-    ntp_manage_config: yes
+    ntp_manage_config: true
   roles:
     - role: ntp
