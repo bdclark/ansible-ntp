@@ -12,12 +12,12 @@
 
 - name: fail if invalid timezone
   fail:
-    msg: "{{ ntp_timezone}} does not seem to be a valid timezone"
+    msg: "{{ ntp_timezone }} does not seem to be a valid timezone"
   when: not _zoneinfo.stat.exists
 
 - name: set /etc/timezone (debian)
   copy:
-    content: "{{ ntp_timezone}}\n"
+    content: "{{ ntp_timezone }}\n"
     dest: /etc/timezone
     owner: root
     group: root
@@ -45,9 +45,9 @@
 
 - name: get timedatectl timezone status
   shell: timedatectl status | grep -E '^\s*Time\s?zone:'
-  ignore_errors: yes
-  check_mode: no
-  changed_when: no
+  ignore_errors: true
+  check_mode: false
+  changed_when: false
   register: _timedatectl
 
 - name: set timezone via timedatectl
@@ -59,5 +59,5 @@
     src: /usr/share/zoneinfo/{{ ntp_timezone }}
     dest: /etc/localtime
     state: link
-    force: yes
+    force: true
   when: _timedatectl is failed
