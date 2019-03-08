@@ -5,6 +5,7 @@ driver:
   require_chef_omnibus: false
   cap_add:
     - SYS_ADMIN
+    - SYS_TIME
   run_options:
     tmpfs:
       - /run
